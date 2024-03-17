@@ -6,8 +6,10 @@ from sklearn.metrics import accuracy_score
 import spacy
 
 
-
-
+"""
+This function takes a list of texts, and breaks them down with spacy to be used by the machine
+learning algorithms. 
+"""
 def extract_features(texts, nlp):
     features = []
     for doc in nlp.pipe(texts, disable=["parser", "ner"]):

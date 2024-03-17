@@ -4,6 +4,12 @@ import os
 import korean_sentences
 
 
+"""
+SourceData includes a unique tag, a URL, a function, and a level. In the load_data methods, we will call
+function(url). In general, each website has a different method of scraping, and this allows us to put in
+many different websites and levels as we define a function for scraping 1 specific level, and a baseURL for that
+level.
+"""
 class SourceData:
     def __init__(self, tag, url, function, level):
         self.tag = tag
@@ -13,8 +19,6 @@ class SourceData:
 
 
 korean_data = [
-    # You may be wondering why htsk uses such inconsistent names for all their units.
-    # I am wondering too.
     SourceData("htsk1", "https://www.howtostudykorean.com/unit1/", korean_sentences.get_howtostudykorean_sentences, 1),
     SourceData("htsk2", "https://www.howtostudykorean.com/unit-2-lower-intermediate-korean-grammar/", korean_sentences.get_howtostudykorean_sentences, 2),
     SourceData("htsk3", "https://www.howtostudykorean.com/unit-3-intermediate-korean-grammar/", korean_sentences.get_howtostudykorean_sentences, 3),
@@ -22,6 +26,15 @@ korean_data = [
     SourceData("htsk5", "https://www.howtostudykorean.com/unit-5/", korean_sentences.get_howtostudykorean_sentences, 5),
 ]
 
+
+"""
+This is the load korean data method. Given a list of sources (defined in korean_data) it uses the related functions
+to scrape each of the given URLs. In order to prevent going to the same urls multiple times (which takes a long time)
+it saves the sentences to korean/sentences.csv, and updates korean/collected_sources.csv to reflect that the source
+has been used. This way you can add more sources in the future without having to redo all of it.
+It may be worth adding the source to the sentence dataframe so in the future a "delete by source" functionality
+is possible if in the future we decide a resource doesn't reflect the language as a whole.
+"""
 def load_korean_data():
     # Check if the CSV files exist, and if not, create them with the appropriate columns
     if not os.path.exists('korean/collected_sources.csv'):
@@ -35,6 +48,7 @@ def load_korean_data():
     new_sources_to_save = []
     new_sentences_to_save = []
 
+    #Go through each source and if it doesn't exist, get the data
     for obj in korean_data:
         print("Tag: "+obj.tag)
         if obj.tag not in collected_sources['tag'].values:

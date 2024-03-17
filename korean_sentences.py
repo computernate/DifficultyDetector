@@ -2,6 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+
+"""
+This gets all the sentences from the website howtostudykorean, given a "unit." There are 6 units, each more advanced
+than the last. This may not be very representitive of the korean language as a whole, as it is very centered around
+textbook learning instead of natural input. However, it is a great starting resource for labelling the data.
+"""
 def get_howtostudykorean_sentences(start_url):
     sentences_with_audio_links = []
 
